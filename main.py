@@ -1,8 +1,24 @@
-from browser import document, html
+from dataclasses import dataclass
 import math
+from typing import Tuple
 
-canvas = document["zone"]
+from browser import document, html
+
+canvas = document["canvas"]
 ctx = canvas.getContext("2d")
+
+
+@dataclass
+class Field:
+    x: int
+    y: int
+    width: int = 80
+    height: int = 20
+    color: str = "white"
+
+    def draw(self):
+        ctx.fillStyle = self.color
+        ctx.fillRect(self.x, self.y, self.width, self.height)
 
 
 def parse_text(text):
@@ -10,7 +26,9 @@ def parse_text(text):
         print(line)
 
 
-document["button"].bind("click", lambda event: parse_text(document["text"].value))
+field = Field(20, 20, color="red")
+
+document["button"].bind("click", lambda event: field.draw())
 
 text = document["text"]
 
